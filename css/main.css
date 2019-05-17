@@ -1,0 +1,15 @@
+*{
+    font-family: 'Rock Salt', cursive;
+}
+#show-game{
+    display: none;
+}
+
+h1{
+    padding: 1em;
+}
+
+span{
+    font-size: .7em;
+    color: red;
+}
