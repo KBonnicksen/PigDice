@@ -1,15 +1,54 @@
+#score-board h3{
+    margin: 1em;
+}
+h3 > .scores{
+    display: inline;
+    text-align: left;
+}
 *{
     font-family: 'Rock Salt', cursive;
 }
 #show-game{
     display: none;
+    height: 100%;
 }
 
 h1{
+    font-size: 3em;
     padding: 1em;
+    border-bottom: 1px solid rgb(230, 227, 227);
+    /*margin-bottom: .75em;*/
 }
 
-span{
+.form-group span{
     font-size: .7em;
     color: red;
+}
+
+#add-players{
+    padding: 2em;
+    text-align: center;
+} 
+
+#message-box{
+    padding: 1.5em;
+    border: 1px solid rgb(230, 227, 227);
+    margin: 2em;
+}
+
+#show-game > .col-md-4{
+}
+
+#score-board{
+    width: 100% !important;
+}
+
+h3{
+    font-size: 1em;
+}
+#enter-players-names{
+    margin-top: 2em;
+}
+.scores, #player-current-turn, #curr-round-score{
+    float: right;
 }
