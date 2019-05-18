@@ -1,8 +1,10 @@
+let currentGame:newGame;
+let winningTotal = 100;
 
 window.onload = function(){
     document.getElementById("add-players").onclick = addPlayers;
     document.getElementById("roll").onclick = rollDice;
-    //document.getElementById("end-turn").onclick = endTurn;
+    document.getElementById("end-turn").onclick = endTurn;
 }
 
 function addPlayers(){
@@ -20,16 +22,12 @@ function addPlayers(){
     else{
         let p1:Player = new Player(pOneElem.value.trim(), 0);
         let p2:Player = new Player(pTwoElem.value.trim(), 0);
-        document.getElementById("p-one").innerText = p1.name;
-        document.getElementById("p-two").innerText = p2.name;
+        currentGame = new newGame(p1, p2, winningTotal);
+        document.getElementById("p-one").innerText = currentGame.playerOne.name;
+        document.getElementById("p-two").innerText = currentGame.playerTwo.name;
         showGameView(); 
-        let currentGame = new newGame(p1, p2);
-        showCurrPlayer(currentGame);
+        showCurrPlayer();
     }  
-}
-
-function playRound(currentGame:newGame){
-    showCurrPlayer(currentGame);
 }
 
 function showGameView(){
@@ -37,9 +35,10 @@ function showGameView(){
     let showGame = document.getElementById("show-game");
     playerNamesPg.style.display = "none";
     showGame.style.display = "block";  
+    displayMessage("Good luck you two!")
 }
 
-function rollDice(currPlayer){
+function rollDice(){
     let randomRoll = Math.floor(Math.random() * 6) + 1;
     if(randomRoll == 1){
         loseTurn();
@@ -49,52 +48,75 @@ function rollDice(currPlayer){
     }
 }
 
-function loseTurn(){
-    document.getElementById("curr-round-score").innerText = '0';
+function endTurn(){
+    updateScores(currentGame.currentPlayer);
+    currentGame.changeCurrentPlayer()
+    showCurrPlayer();
+    resetCurrScore();
 }
 
-function showCurrPlayer(game:newGame){
-    let currPlayerElem = document.getElementById("player-current-turn");
-    if(currPlayerElem.innerText != ""){
-        game.changeCurrentPlayer();
+function updateScores(currPlayer:Player){
+    let totalScore = currPlayer.score += getCurrScore();
+    if(currPlayer == currentGame.playerOne){
+        (<HTMLElement>document.getElementById("p-one")
+            .nextElementSibling).innerText = totalScore.toString();
     }
-    currPlayerElem.innerText = game.currentPlayer.toString();
+    else{
+        (<HTMLElement>document.getElementById("p-two")
+            .nextElementSibling).innerText = totalScore.toString();
+    }
+    checkForMessages(currPlayer);
+    if(currPlayer.score >= winningTotal){
+        winner(currPlayer);
+    }
+}
+
+function checkForMessages(currPlayer:Player){
+    if(currPlayer.score >= winningTotal - 10){
+        displayMessage(currPlayer.name + " sure is getting close!");
+    }
+    else if(currPlayer.score - currentGame.currentOpponent.score >= 30){
+        displayMessage("Looks like " + currentGame.currentOpponent.name
+                    + " didn't bring their A game todsay.....");
+    }
+}
+
+function winner(player:Player){
+    displayMessage(player.name + " wins!!!!! Great game guys!");
+}
+
+function loseTurn(){
+    displayMessage("OUCH! " + currentGame.currentPlayer.name + " rolled a ONE :(");
+    resetCurrScore();
+    currentGame.changeCurrentPlayer();
+    showCurrPlayer();
+}
+
+function showCurrPlayer(){
+    let currPlayerElem = document.getElementById("player-current-turn");
+    if(currPlayerElem.innerText == ""){
+        currentGame.changeCurrentPlayer();
+    }
+    currPlayerElem.innerText = currentGame.currentPlayer.name.toString();
+}
+
+function getCurrScore():number{
+    let currScoreElem = document.getElementById("curr-round-score");
+    return parseInt(currScoreElem.innerText);
 }
 
 function addCurrScore(lastRoll:number){
-    let currScoreElem = document.getElementById("curr-round-score");
-    let currScore = parseInt(currScoreElem.innerText);
-    currScoreElem.innerText = (currScore + lastRoll).toString();
+    let currScore = getCurrScore();
+    document.getElementById("curr-round-score").innerText = (currScore + lastRoll).toString();
 }
 
-class newGame{
-    playerOne:Player;
-    playerTwo:Player;
+function displayMessage(msg:string){
+    let messageBox = document.getElementById("message");
+    messageBox.innerText = msg;
+}
 
-    currentPlayer:Player;
-
-    constructor(playerOne, playerTwo){
-        this.playerOne = playerOne;
-        this.playerTwo = playerTwo;
-        this.currentPlayer = this.randomFirstPlayer();
-    }
-
-    randomFirstPlayer(){
-        let randomBool = Math.random() >= 0.5;
-        if(randomBool){
-             return this.playerOne;
-        }
-        return this.playerTwo;
-    }
-
-    changeCurrentPlayer(){
-        if(this.currentPlayer == this.playerOne){
-            this.currentPlayer = this.playerTwo;
-        }
-        else{
-            this.currentPlayer = this.playerOne;
-        }
-    }
+function resetCurrScore(){
+    document.getElementById("curr-round-score").innerText = '0';
 }
 
 class Player{
@@ -104,8 +126,44 @@ class Player{
         this.name = name;
         this.score = score;
     }
+}
 
-    toString(){
-        return this.name;
+class newGame{
+    playerOne:Player;
+    playerTwo:Player;
+
+    currentPlayer:Player;
+    currentOpponent:Player;
+
+    winningTotal:number;
+    constructor(playerOne, playerTwo, winningTotal){
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+        this.randomFirstPlayer();
+        this.winningTotal = winningTotal;
+    }
+
+    randomFirstPlayer(){
+        let randomBool = Math.random() >= 0.5;
+        if(randomBool){
+            this.currentPlayer = this.playerOne;
+            this.currentOpponent = this.playerTwo; 
+        }
+        else{
+            this.currentPlayer = this.playerTwo;
+            this.currentOpponent = this.playerOne;
+        }
+            
+    }
+
+    changeCurrentPlayer(){
+        if(this.currentPlayer == this.playerOne){
+            this.currentPlayer = this.playerTwo;
+            this.currentOpponent = this.playerOne;
+        }
+        else{
+            this.currentPlayer = this.playerOne;
+            this.currentOpponent = this.playerTwo;
+        }
     }
 }
