@@ -167,3 +167,34 @@ class newGame{
         }
     }
 }
+
+/*-------------------------------------------------------------------------*/
+
+let canvas = document.querySelector('canvas');
+
+fitToContainer(canvas);
+
+function fitToContainer(canvas) {
+    // Make it visually fill the positioned parent
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    // ...then set the internal size to match
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+// //allows you to access 2d methods
+let c = canvas.getContext("2d");
+
+// c.strokeStyle = "rgba(255, 0, 0, 0.5)'";
+// c.rect(100, 100, 100, 100);
+// c.stroke();
+// //draw square
+// c.beginPath();
+// c.moveTo(50, 300);
+// c.lineTo(300, 100);
+
+class DrawingDice{
+    
+    constructor()
+}
+

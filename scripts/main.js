@@ -140,3 +140,18 @@ var newGame = (function () {
     };
     return newGame;
 }());
+var canvas = document.querySelector('canvas');
+fitToContainer(canvas);
+function fitToContainer(canvas) {
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+var c = canvas.getContext("2d");
+c.strokeStyle = "rgba(255, 0, 0, 0.5)'";
+c.rect(100, 100, 100, 100);
+c.stroke();
+c.beginPath();
+c.moveTo(50, 300);
+c.lineTo(300, 100);
