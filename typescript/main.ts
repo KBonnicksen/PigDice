@@ -2,7 +2,7 @@ let currentGame:newGame;
 let winningTotal = 100;
 
 window.onload = function(){
-    document.getElementById("add-players").onclick = addPlayers;
+    document.getElementById("add").onclick = addPlayers;
     document.getElementById("roll").onclick = rollDice;
     document.getElementById("end-turn").onclick = endTurn;
 }
