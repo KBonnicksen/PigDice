@@ -1,3 +1,5 @@
+
+
 #score-board h3{
     margin: 1em;
 }
@@ -8,13 +10,12 @@ h3 > .scores{
 *{
     font-family: 'Rock Salt', cursive;
 }
-/*CHANGE THIS*
 #show-game{
     display: none;
     height: 100%;
-}*/
+}
 
-h1{
+.container > h1{
     font-size: 3em;
     padding: 1em;
     border-bottom: 1px solid rgb(230, 227, 227);
@@ -45,13 +46,16 @@ h3{
     font-size: 1em;
 }
 #enter-players-names{
-    display: none;
     margin-top: 2em;
 }
 .scores, #player-current-turn, #curr-round-score{
     float: right;
 }
-/*------------------canvas stuff----------------------------------------*/
-#dice-canvas{
-    border: .1em solid black
+
+#dice-result{
+    font-size: 5em;
+}
+
+#page-middle{
+    margin: auto;
 }

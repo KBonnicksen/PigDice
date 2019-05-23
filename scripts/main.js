@@ -35,6 +35,7 @@ function showGameView() {
 }
 function rollDice() {
     var randomRoll = Math.floor(Math.random() * 6) + 1;
+    document.getElementById("dice-result").innerText = randomRoll.toString();
     if (randomRoll == 1) {
         loseTurn();
     }
@@ -69,11 +70,18 @@ function checkForMessages(currPlayer) {
     }
     else if (currPlayer.score - currentGame.currentOpponent.score >= 30) {
         displayMessage("Looks like " + currentGame.currentOpponent.name
-            + " didn't bring their A game todsay.....");
+            + " didn't bring their A game today.....");
     }
 }
 function winner(player) {
+    document.getElementById("dice-result").innerText = "";
     displayMessage(player.name + " wins!!!!! Great game guys!");
+    var imageElem = document.createElement("img");
+    imageElem.src = "https://media.giphy.com/media/vzF0lrwPoR9kc/giphy.gif";
+    document.getElementById("page-middle").appendChild(imageElem);
+    var image = document.querySelector("#page-middle > img");
+    image.height = 220;
+    image.style.marginLeft = "4em";
 }
 function loseTurn() {
     displayMessage("OUCH! " + currentGame.currentPlayer.name + " rolled a ONE :(");
@@ -140,18 +148,3 @@ var newGame = (function () {
     };
     return newGame;
 }());
-var canvas = document.querySelector('canvas');
-fitToContainer(canvas);
-function fitToContainer(canvas) {
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-}
-var c = canvas.getContext("2d");
-c.strokeStyle = "rgba(255, 0, 0, 0.5)'";
-c.rect(100, 100, 100, 100);
-c.stroke();
-c.beginPath();
-c.moveTo(50, 300);
-c.lineTo(300, 100);

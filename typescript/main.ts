@@ -40,6 +40,7 @@ function showGameView(){
 
 function rollDice(){
     let randomRoll = Math.floor(Math.random() * 6) + 1;
+    document.getElementById("dice-result").innerText = randomRoll.toString();
     if(randomRoll == 1){
         loseTurn();
     }
@@ -53,6 +54,7 @@ function endTurn(){
     currentGame.changeCurrentPlayer()
     showCurrPlayer();
     resetCurrScore();
+    
 }
 
 function updateScores(currPlayer:Player){
@@ -77,12 +79,20 @@ function checkForMessages(currPlayer:Player){
     }
     else if(currPlayer.score - currentGame.currentOpponent.score >= 30){
         displayMessage("Looks like " + currentGame.currentOpponent.name
-                    + " didn't bring their A game todsay.....");
+                    + " didn't bring their A game today.....");
     }
 }
 
 function winner(player:Player){
+    document.getElementById("dice-result").innerText = "";
     displayMessage(player.name + " wins!!!!! Great game guys!");
+    let imageElem = document.createElement("img");
+
+    imageElem.src = "https://media.giphy.com/media/vzF0lrwPoR9kc/giphy.gif";
+    document.getElementById("page-middle").appendChild(imageElem);
+    let image = <HTMLImageElement>document.querySelector("#page-middle > img");
+    image.height = 220;
+    image.style.marginLeft = "4em";
 }
 
 function loseTurn(){
@@ -167,34 +177,3 @@ class newGame{
         }
     }
 }
-
-/*-------------------------------------------------------------------------*/
-
-let canvas = document.querySelector('canvas');
-
-fitToContainer(canvas);
-
-function fitToContainer(canvas) {
-    // Make it visually fill the positioned parent
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    // ...then set the internal size to match
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-}
-// //allows you to access 2d methods
-let c = canvas.getContext("2d");
-
-// c.strokeStyle = "rgba(255, 0, 0, 0.5)'";
-// c.rect(100, 100, 100, 100);
-// c.stroke();
-// //draw square
-// c.beginPath();
-// c.moveTo(50, 300);
-// c.lineTo(300, 100);
-
-class DrawingDice{
-    
-    constructor()
-}
-
